@@ -131,7 +131,8 @@ public class ReactModalHostView extends ViewGroup implements LifecycleEventListe
   }
 
   private void dismiss() {
-    if (mDialog != null) {
+    Activity currentActivity = ((ReactContext) getContext()).getCurrentActivity();
+    if (currentActivity != null && !currentActivity.isFinishing() && mDialog != null) {
       if (mDialog.isShowing()) {
         Activity dialogContext = ContextUtils.findContextOfType(mDialog.getContext(), Activity.class);
         if (dialogContext == null || !dialogContext.isFinishing()) {
@@ -202,6 +203,10 @@ public class ReactModalHostView extends ViewGroup implements LifecycleEventListe
    * recreation of a new Dialog.
    */
   protected void showOrUpdate() {
+    Activity currentReactActivity = ((ReactContext) getContext()).getCurrentActivity();
+    if (currentReactActivity == null || currentReactActivity.isFinishing()) {
+      return;
+    }
     // If the existing Dialog is currently up, we may need to redraw it or we may be able to update
     // the property without having to recreate the dialog
     if (mDialog != null) {

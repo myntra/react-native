@@ -294,23 +294,43 @@ public class ReactModalHostView extends ViewGroup implements LifecycleEventListe
 
     Activity currentActivity = getCurrentActivity();
     if (currentActivity != null) {
-      int activityWindowFlags = currentActivity.getWindow().getAttributes().flags;
-      if ((activityWindowFlags
-          & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0) {
-        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-      } else {
-        mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      try{
+        int activityWindowFlags = currentActivity.getWindow().getAttributes().flags;
+        if ((activityWindowFlags
+            & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0) {
+          mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+          mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+      }catch(IllegalArgumentException e){
+        handleDialogException();
       }
+      
     }
 
-    if (mTransparent) {
-      mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-    } else {
-      mDialog.getWindow().setDimAmount(0.5f);
-      mDialog.getWindow().setFlags(
-          WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-          WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    try{
+      if (mTransparent) {
+        mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+      } else {
+        mDialog.getWindow().setDimAmount(0.5f);
+        mDialog.getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_DIM_BEHIND,
+            WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+      }
+    }catch(IllegalArgumentException e){
+      handleDialogException();
     }
+    
+  }
+
+
+  private void handleDialogException(){
+    mDialog = null;
+    ViewGroup parent = (ViewGroup) mHostView.getParent();
+    if(parent!= null){
+      parent.removeViewAt(0);
+    }
+    showOrUpdate();
   }
 
   /**

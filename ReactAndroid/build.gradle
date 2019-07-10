@@ -326,6 +326,16 @@ android {
         exclude("META-INF/NOTICE")
         exclude("META-INF/LICENSE")
     }
+
+    buildTypes {
+        debug {}
+		qa {}
+        fox {}
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {

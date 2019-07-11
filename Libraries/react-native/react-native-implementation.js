@@ -11,7 +11,7 @@
 'use strict';
 
 const invariant = require('invariant');
-const warnOnce = require('warnOnce');
+const warnOnce = require('../Utilities/warnOnce');
 
 // Export React, plus some native additions.
 module.exports = {

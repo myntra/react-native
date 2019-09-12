@@ -89,7 +89,7 @@ task prepareFolly(dependsOn: dependenciesPath ? [] : [downloadFolly], type: Copy
 }
 
 task prepareHermes() {
-    def hermesAAR = new File("$projectDir/../node_modules/hermesvm/android/hermes-debug.aar")
+    def hermesAAR = new File("$projectDir/../../hermesvm/android/hermes-debug.aar")
     def soFiles = zipTree(hermesAAR).matching({ it.include "**/*.so" })
 
     copy {

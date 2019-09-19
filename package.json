@@ -96,9 +96,9 @@
     "hermesvm": "^0.1.0",
     "invariant": "^2.2.4",
     "jsc-android": "245459.0.0",
-    "metro-babel-register": "0.54.1",
-    "metro-react-native-babel-transformer": "0.54.1",
-    "metro-source-map": "^0.55.0",
+    "metro-babel-register": "0.56.0",
+    "metro-react-native-babel-transformer": "0.56.0",
+    "metro-source-map": "0.56.0",
     "nullthrows": "^1.1.0",
     "pretty-format": "^24.7.0",
     "promise": "^7.1.1",
@@ -142,7 +142,8 @@
     "react-test-renderer": "16.8.6",
     "shelljs": "^0.7.8",
     "ws": "^6.1.4",
-    "yargs": "^9.0.0"
+    "yargs": "^9.0.0",
+    "metro": "0.56.0"
   },
   "detox": {
     "test-runner": "jest",

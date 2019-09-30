@@ -181,4 +181,10 @@ public class FrescoModule extends ReactContextBaseJavaModule implements
       Fresco.getImagePipeline().clearMemoryCaches();
     }
   }
+
+  //enable fresco module override for autolinking
+  @Override
+  public boolean canOverrideExistingModule() {
+    return true;
+  }
 }

@@ -12,7 +12,7 @@
 const Platform = require('./Platform');
 const invariant = require('invariant');
 
-const MetroHMRClient = require('metro/src/lib/bundle-modules/HMRClient');
+const MetroHMRClient = require('../../../metro/src/lib/bundle-modules/HMRClient');
 
 import NativeRedBox from '../NativeModules/specs/NativeRedBox';
 

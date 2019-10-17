@@ -12,6 +12,7 @@
 const Platform = require('./Platform');
 const invariant = require('invariant');
 
+//corrected dependency for HMRClient
 const MetroHMRClient = Platform.OS === 'android'? require('../../../metro/src/lib/bundle-modules/HMRClient') : require('metro/src/lib/bundle-modules/HMRClient');
 
 import NativeRedBox from '../NativeModules/specs/NativeRedBox';

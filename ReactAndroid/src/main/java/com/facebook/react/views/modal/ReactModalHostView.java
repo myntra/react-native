@@ -143,7 +143,7 @@ public class ReactModalHostView extends ViewGroup implements LifecycleEventListe
       if (mDialog.isShowing()) {
         Activity dialogContext =
             ContextUtils.findContextOfType(mDialog.getContext(), Activity.class);
-        if (dialogContext == null || !dialogContext.isFinishing()) {
+        if (dialogContext != null && !dialogContext.isFinishing()) {
           mDialog.dismiss();
         }
       }

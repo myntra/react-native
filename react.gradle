@@ -140,8 +140,11 @@ afterEvaluate {
                 doLast {
                     def hermesFlags;
                     def hbcTempFile = file("${jsBundleFile}.hbc")
+                    def generateSourceMap = config."generateSourceMapIn${targetName}" != null
+                        ? config."generateSourceMapIn${targetName}"
+                        : false
                     exec {
-                        if (targetName.toLowerCase().contains("release")) {
+                        if (targetName.toLowerCase().contains("release") || generateSourceMap) {
                             // Can't use ?: since that will also substitute valid empty lists
                             hermesFlags = config.hermesFlagsRelease
                             if (hermesFlags == null) hermesFlags = ["-O", "-output-source-map"]

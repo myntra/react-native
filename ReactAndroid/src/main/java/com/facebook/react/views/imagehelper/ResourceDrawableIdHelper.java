@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.concurrent.ThreadSafe;
+import com.google.android.play.core.splitinstall.SplitInstallManager;
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
 
 /** Helper class for obtaining information about local images. */
 @ThreadSafe
@@ -22,6 +24,7 @@ public class ResourceDrawableIdHelper {
 
   private static final String LOCAL_RESOURCE_SCHEME = "res";
   private static volatile ResourceDrawableIdHelper sResourceDrawableIdHelper;
+  private SplitInstallManager manager;
 
   private ResourceDrawableIdHelper() {
     mResourceDrawableIdMap = new HashMap<String, Integer>();
@@ -36,6 +39,15 @@ public class ResourceDrawableIdHelper {
       }
     }
     return sResourceDrawableIdHelper;
+  }
+
+  public synchronized SplitInstallManager getSplitInstallManager(Context context) {
+    if (this.manager == null) {
+      this.manager = SplitInstallManagerFactory.create(context);
+    }
+
+    Log.d("DFM", "Hello DFM ResDrHelper = " + this.manager);
+    return this.manager;
   }
 
   public synchronized void clear() {
@@ -60,6 +72,15 @@ public class ResourceDrawableIdHelper {
         return mResourceDrawableIdMap.get(name);
       }
       int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
+      if (id == 0){
+        java.util.Set<java.lang.String> modules = getSplitInstallManager(context).getInstalledModules();
+        for (String moduleName: modules) {
+          String packageName = context.getPackageName() + "." + moduleName;
+          id = context.getResources().getIdentifier(name, "drawable", packageName);
+          if (id > 0) break;
+        }
+        Drawable drawable = context.getResources().getDrawable(id);
+      }
       mResourceDrawableIdMap.put(name, id);
       return id;
     }

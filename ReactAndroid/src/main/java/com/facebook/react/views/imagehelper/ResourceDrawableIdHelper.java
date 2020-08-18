@@ -80,7 +80,7 @@ public class ResourceDrawableIdHelper {
           id = context.getResources().getIdentifier(name, "drawable", packageName);
           if (id > 0) break;
         }
-        Drawable drawable = context.getResources().getDrawable(id);
+        // Drawable drawable = context.getResources().getDrawable(id);
       }
       mResourceDrawableIdMap.put(name, id);
       return id;

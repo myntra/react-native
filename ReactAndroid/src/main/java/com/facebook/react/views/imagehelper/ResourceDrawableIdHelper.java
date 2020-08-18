@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.annotation.concurrent.ThreadSafe;
 import com.google.android.play.core.splitinstall.SplitInstallManager;
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
+import android.util.Log;
 
 /** Helper class for obtaining information about local images. */
 @ThreadSafe

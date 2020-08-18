@@ -82,7 +82,7 @@ public class ResourceDrawableIdHelper {
         }
         // Drawable drawable = context.getResources().getDrawable(id);
       }
-      mResourceDrawableIdMap.put(name, id);
+      if(id > 0) mResourceDrawableIdMap.put(name, id);
       return id;
     }
   }

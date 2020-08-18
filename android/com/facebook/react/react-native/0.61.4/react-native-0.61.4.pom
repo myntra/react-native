@@ -88,5 +88,11 @@
       <version>1.15.0</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.android.play</groupId>
+      <artifactId>core</artifactId>
+      <version>1.7.3</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 </project>

@@ -18,6 +18,7 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
 import android.util.Log;
 import com.google.android.play.core.splitcompat.SplitCompat;
 import com.google.android.play.core.splitinstall.*;
+import android.content.ContextWrapper;
 
 /** Helper class for obtaining information about local images. */
 @ThreadSafe
@@ -76,9 +77,9 @@ public class ResourceDrawableIdHelper {
       }
       int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
       if (id == 0){
-        SplitInstallHelper.updateAppInfo(context);
-        SplitCompat.install(context);
-        java.util.Set<java.lang.String> modules = getSplitInstallManager(context).getInstalledModules();
+        SplitInstallHelper.updateAppInfo(((ContextWrapper) context).getBaseContext());
+        SplitCompat.install(((ContextWrapper) context).getBaseContext());
+        java.util.Set<java.lang.String> modules = getSplitInstallManager(((ContextWrapper) context).getBaseContext()).getInstalledModules();
         for (String moduleName: modules) {
           String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
           id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);

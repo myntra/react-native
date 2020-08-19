@@ -76,16 +76,16 @@ public class ResourceDrawableIdHelper {
       }
       int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
       if (id == 0){
-//        SplitInstallHelper.updateAppInfo(context);
-//        SplitCompat.install(context);
-//        java.util.Set<java.lang.String> modules = getSplitInstallManager(context).getInstalledModules();
-//        for (String moduleName: modules) {
-//          String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
-//          id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);
-//          if (id > 0) break;
-//        }
-        String packageName = context.getApplicationContext().getPackageName() + "." + "move";
-        id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);
+        SplitInstallHelper.updateAppInfo(context);
+        SplitCompat.install(context);
+        java.util.Set<java.lang.String> modules = getSplitInstallManager(context).getInstalledModules();
+        for (String moduleName: modules) {
+          String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
+          id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);
+          if (id > 0) break;
+        }
+//        String packageName = context.getApplicationContext().getPackageName() + "." + "move";
+//        id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);
         Log.d("DFM", "Hello DFM ResDrHelper id = " + id);
         // Drawable drawable = context.getResources().getDrawable(id);
       }

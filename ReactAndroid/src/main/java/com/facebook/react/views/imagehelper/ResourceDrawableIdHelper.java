@@ -74,10 +74,10 @@ public class ResourceDrawableIdHelper {
       }
       int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
       if (id == 0){
-        java.util.Set<java.lang.String> modules = getSplitInstallManager(context).getInstalledModules();
+        java.util.Set<java.lang.String> modules = getSplitInstallManager(context.getApplicationContext()).getInstalledModules();
         for (String moduleName: modules) {
-          String packageName = context.getPackageName() + "." + moduleName;
-          id = context.getResources().getIdentifier(name, "drawable", packageName);
+          String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
+          id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);
           if (id > 0) break;
         }
         // Drawable drawable = context.getResources().getDrawable(id);

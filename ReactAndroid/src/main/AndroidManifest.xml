@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.facebook.react">
 
-    <application />
+    <application android:name="com.google.android.play.core.splitcompat.SplitCompatApplication"/>
 
 </manifest>

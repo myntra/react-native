@@ -48,9 +48,7 @@ public class ResourceDrawableIdHelper {
   }
 
   public synchronized SplitInstallManager getSplitInstallManager(Context context) {
-    if (this.manager == null) {
-      this.manager = SplitInstallManagerFactory.create(context);
-    }
+    this.manager = SplitInstallManagerFactory.create(context);
 
     Log.d("DFM", "Hello DFM ResDrHelper = " + this.manager);
     return this.manager;

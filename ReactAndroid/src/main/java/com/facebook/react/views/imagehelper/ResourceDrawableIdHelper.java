@@ -21,6 +21,8 @@ import com.google.android.play.core.splitinstall.*;
 import android.content.ContextWrapper;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.ThemedReactContext;
+import android.os.Looper;
+import android.os.Handler;
 
 /** Helper class for obtaining information about local images. */
 @ThreadSafe
@@ -75,25 +77,46 @@ public class ResourceDrawableIdHelper {
       if (mResourceDrawableIdMap.containsKey(name)) {
         return mResourceDrawableIdMap.get(name);
       }
-      int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
-      if (id == 0){
-        SplitInstallHelper.updateAppInfo(((ThemedReactContext) context).getCurrentActivity());
-        SplitCompat.install(((ThemedReactContext) context).getCurrentActivity());
-        java.util.Set<java.lang.String> modules = getSplitInstallManager(((ThemedReactContext) context).getCurrentActivity()).getInstalledModules();
-        for (String moduleName: modules) {
-          String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
-          id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);
-          if (id > 0) break;
+      final int[] id = {context.getResources().getIdentifier(name, "drawable", context.getPackageName())};
+      String finalName = name;
+      new Handler(Looper.getMainLooper()).post(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            if (id[0] == 0) {
+              SplitInstallHelper.updateAppInfo(((ThemedReactContext) context).getCurrentActivity());
+              SplitCompat.install(((ThemedReactContext) context).getCurrentActivity());
+              new Handler().post(new Runnable() {
+                @Override
+                public void run(){
+                  java.util.Set<java.lang.String> modules = getSplitInstallManager(((ThemedReactContext) context).getCurrentActivity()).getInstalledModules();
+                  for (String moduleName: modules) {
+                    String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
+                    id[0] = context.getApplicationContext().getResources().getIdentifier(finalName, "drawable", packageName);
+                    if (id[0] > 0) break;
+                  }
+                }
+              });
+            }
+
+          } catch (Exception e) {
+
+          }
+
         }
+      });
+
+
 //        String packageName = context.getApplicationContext().getPackageName() + "." + "move";
 //        id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);
-        Log.d("DFM", "Hello DFM ResDrHelper id = " + id);
+        Log.d("DFM", "Hello DFM ResDrHelper id = " + id[0]);
         // Drawable drawable = context.getResources().getDrawable(id);
+      if(id[0] > 0) mResourceDrawableIdMap.put(name, id[0]);
+      return id[0];
       }
-      if(id > 0) mResourceDrawableIdMap.put(name, id);
-      return id;
+
     }
-  }
+
 
   public @Nullable Drawable getResourceDrawable(Context context, @Nullable String name) {
     int resId = getResourceDrawableId(context, name);

@@ -20,7 +20,7 @@ import com.google.android.play.core.splitcompat.SplitCompat;
 import com.google.android.play.core.splitinstall.*;
 import android.content.ContextWrapper;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.uimanager.ThemedReactContext;
 
 /** Helper class for obtaining information about local images. */
 @ThreadSafe
@@ -79,9 +79,9 @@ public class ResourceDrawableIdHelper {
       }
       int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
       if (id == 0){
-        SplitInstallHelper.updateAppInfo(((ReactApplicationContext) context).getCurrentActivity());
-        SplitCompat.install(((ReactApplicationContext) context).getCurrentActivity());
-        java.util.Set<java.lang.String> modules = getSplitInstallManager(((ReactApplicationContext) context).getCurrentActivity()).getInstalledModules();
+        SplitInstallHelper.updateAppInfo(((ThemedReactContext) context).getCurrentActivity());
+        SplitCompat.install(((ThemedReactContext) context).getCurrentActivity());
+        java.util.Set<java.lang.String> modules = getSplitInstallManager(((ThemedReactContext) context).getCurrentActivity()).getInstalledModules();
         for (String moduleName: modules) {
           String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
           id = context.getApplicationContext().getResources().getIdentifier(name, "drawable", packageName);

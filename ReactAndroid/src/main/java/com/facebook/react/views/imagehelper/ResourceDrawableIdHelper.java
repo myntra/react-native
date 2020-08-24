@@ -50,8 +50,9 @@ public class ResourceDrawableIdHelper {
   }
 
   public synchronized SplitInstallManager getSplitInstallManager(Context context) {
-    this.manager = SplitInstallManagerFactory.create(context);
-
+    if (manager == null) {
+      manager = SplitInstallManagerFactory.create(context);
+    }
     Log.d("DFM", "Hello DFM ResDrHelper = " + this.manager);
     return this.manager;
   }
@@ -84,19 +85,20 @@ public class ResourceDrawableIdHelper {
         public void run() {
           try {
             if (id[0] == 0) {
-              SplitInstallHelper.updateAppInfo(((ThemedReactContext) context).getCurrentActivity());
-              SplitCompat.install(((ThemedReactContext) context).getCurrentActivity());
-              new Handler().post(new Runnable() {
+              SplitInstallHelper.updateAppInfo(context.getApplicationContext());
+              SplitCompat.install(context.getApplicationContext());
+              getSplitInstallManager(context.getApplicationContext());
+              new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run(){
-                  java.util.Set<java.lang.String> modules = getSplitInstallManager(((ThemedReactContext) context).getCurrentActivity()).getInstalledModules();
+                  java.util.Set<java.lang.String> modules = manager.getInstalledModules();
                   for (String moduleName: modules) {
                     String packageName = context.getApplicationContext().getPackageName() + "." + moduleName;
                     id[0] = context.getApplicationContext().getResources().getIdentifier(finalName, "drawable", packageName);
                     if (id[0] > 0) break;
                   }
                 }
-              });
+              }, 200);
             }
 
           } catch (Exception e) {

@@ -6,6 +6,7 @@
  */
 package com.facebook.react;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.PermissionAwareActivity;
 import com.facebook.react.modules.core.PermissionListener;
+import com.google.android.play.core.splitcompat.SplitCompat;
 
 /** Base Activity for React Native applications. */
 public abstract class ReactActivity extends AppCompatActivity
@@ -42,6 +44,12 @@ public abstract class ReactActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mDelegate.onCreate(savedInstanceState);
+  }
+
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(newBase);
+    SplitCompat.installActivity(this);
   }
 
   @Override
